@@ -1,6 +1,7 @@
 # Ssaver - a "screensaver/locker" for Terminals using zsh
 
-![](iTerm2 Screenshot.png)
+<small>Example Screen</small>
+![](iTerm2_Screenshot.png)
 
 ssaver is a pair of utilities. One is a script meant to be sourced into zsh. The other is a python curses
 program that does the actual screensaver. 
