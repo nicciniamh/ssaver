@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+import os
+import sys
+import argparse
+import time 
+import datetime
+import curses
+import signal
+import pam as p
+import random
+
+def main(stdscr,args):
+	def signalHandler(sig,frame):
+		curses.beep()
+
+	colors = [curses.COLOR_WHITE, curses.COLOR_CYAN, curses.COLOR_RED, curses.COLOR_YELLOW, curses.COLOR_MAGENTA, curses.COLOR_GREEN]
+	stdscr = curses.initscr()
+	curses.savetty()
+	curses.noecho()
+	stdscr.clear()
+	stdscr.nodelay(1)
+	curses.raw()
+	curses.cbreak()
+	curses.start_color()
+	username = os.environ['USER']
+	hostname = f'{username}@{os.uname()[1]}'
+	tstr = time.strftime("%c",time.localtime())
+	tw = max(len(hostname),len(tstr))
+	for s in [signal.SIGHUP,signal.SIGINT,signal.SIGPIPE, signal.SIGTSTP]:
+		signal.signal(s,signalHandler)
+
+	try:
+		termwidth = os.get_terminal_size().columns
+	except:
+		termwidth = 70
+
+	try:
+		termheight = os.get_terminal_size().lines
+	except:
+		termheight = 25
+
+	cnt = 0
+	if args.random:
+		lp = random.randint(0,termheight-2)
+		cp = random.randint(0,termwidth-tw)
+	else:
+		lp = int(termheight/2)
+		cp = int((termwidth/2)-(tw/2))
+	if args.colors:
+		color = colors[random.randint(0,len(colors)-1)]
+		curses.init_pair(1, color, curses.COLOR_BLACK)
+	else:
+		curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+
+	while True:
+		cnt += 1
+		if cnt == 4:
+			if args.colors:
+				color = colors[random.randint(0,len(colors)-1)]
+				curses.init_pair(1, color, curses.COLOR_BLACK)
+			if args.random:
+				lp = random.randint(0,termheight-2)
+				cp = random.randint(0,(termwidth/2)-int(len(hostname)/2))
+				stdscr.clear()
+			cnt = 0
+
+		tstr = time.strftime("%c",time.localtime())
+
+		tw = max(len(hostname),len(tstr))
+		tstr = tstr.center(tw,' ')
+		hstr = hostname.center(tw,' ')
+		stdscr.addstr(lp,cp,hstr,curses.color_pair(1))
+		stdscr.addstr(lp+1,cp,tstr,curses.color_pair(1))
+		stdscr.refresh()
+		curses.curs_set(False)
+
+		c = stdscr.getch()
+		if c != -1:
+			if not args.nolock:
+				stdscr.clear();
+				stdscr.addstr(1,0,"To unlock the screen you must enter your password.")
+				pprompt = 'Enter password: '
+				plen = len(pprompt)
+				stdscr.addstr(3,0,pprompt)
+				stdscr.refresh()
+				stdscr.nodelay(False)
+				curses.curs_set(True)
+				pw = stdscr.getstr(3,plen,80)
+				curses.curs_set(False)
+				stdscr.nodelay(True)
+				if p.authenticate(username,pw.decode('ascii')):
+					return 0
+				else:
+					curses.beep()
+					stdscr.addstr(0,0,'Incorrect password')
+					stdscr.refresh()
+					time.sleep(2.5)
+					stdscr.clear()
+			else:
+				return 0
+		time.sleep(.5)
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description='Terminal Screen Locker')
+	parser.add_argument('-c','--colors',action='store_true',default=False,help='Use random colors on display')
+	parser.add_argument('-n','--nolock',action='store_true',default=False,help='Disable requiring a password to deactivate.')
+	parser.add_argument('-r','--random',action='store_true',default=False,help='Use random placement of information.')
+	args = parser.parse_args()
+	curses.wrapper(main,args)
