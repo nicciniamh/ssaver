@@ -1,5 +1,7 @@
 # Ssaver - a "screensaver/locker" for Terminals using zsh
 
+![](iTerm2 Screenshot.png)
+
 ssaver is a pair of utilities. One is a script meant to be sourced into zsh. The other is a python curses
 program that does the actual screensaver. 
 
@@ -19,12 +21,13 @@ Screenaver commands are invoked with ```screensaver <cmd> <args>```.
 | blank    | Displays screensaver settings                | none                     |
 | on       | Enables the screensaver with default timeout | none                     |
 | off      | Disables the screensaver                     | none                     |
-| save     | Saves current options                        | none                     |
+| save     | Saves current options to ~/.ssaver.rc        | none                     |
 | set      | Sets options  (see below)                    | colors,lock,random, time |
 
 #### Set commands
 
-Set commands are invoked with ```set <cmd> <args>```.
+Set commands are invoked with ```set <cmd> <args>```. Each time a set command is used the 
+screensaver options are saved to ```~/.ssaver.rc```.
 
 |Command|Description                                          |Parameters                |
 |-------|-----------------------------------------------------|--------------------------|
