@@ -60,4 +60,4 @@ Screen lock arguments:
 
 
 ## License
-This program has no license. Use it, copy it, call it yours if you feel a great need. No warranty is expressed or implied. If it breaks something, you own all the pieces. 
+This program has no license. Use it, copy it, call it yours if you feel a great need. No warranty is expressed or implied. If it breaks something, you own all the pieces. Please see (LICENSE)[LICENSE] for details. 
