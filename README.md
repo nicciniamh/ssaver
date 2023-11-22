@@ -51,6 +51,8 @@ Screen lock arguments:
 | -r, --random | Use random placement of logo.              |
 | -l, --long   | Use long (full) histname                   |
 
+screenlock can be invoked directly, but, it's really meant to be called by the shell when TMOUT idle seconds expire. All the options of screenlock can be set by the screensaver command using the above command set.
+
 ## Installation
 
 I have tested this code on Debian Bookworm, Pi OS Buster, Ubuntu Server 18.04 and macOS Ventura.
