@@ -29,13 +29,13 @@ Screenaver commands are invoked with ```screensaver <cmd> <args>```.
 Set commands are invoked with ```set <cmd> <args>```. Each time a set command is used the 
 screensaver options are saved to ```~/.ssaver.rc```.
 
-|Command|Description                                          |Parameters                |
-|-------|-----------------------------------------------------|--------------------------|
-|colors |Turns on or off random coloring of the logo.         |on, off                   |
-| lock  |Turns on or off screen locking when saver activated. |on, off                   |
-| long  |Turns on or off full hostname in logo.               |on, off                   |
-|random |Turns on or off random placement of logo             |on, off                   |
-| time  |Sets the number of idle seconds for acitvation       | *seconds*                |
+|Command |Description                                          |Parameters                |
+|--------|-----------------------------------------------------|--------------------------|
+|colors  |Turns on or off random coloring of the logo.         |on, off                   |
+|fullhost|Turns on or off full hostname in logo.               |on, off                   |
+| lock   |Turns on or off screen locking when saver activated. |on, off                   |
+|random  |Turns on or off random placement of logo             |on, off                   |
+| time   |Sets the number of idle seconds for acitvation       | *seconds*                |
 
 
 ### Screenlock
