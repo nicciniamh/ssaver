@@ -56,7 +56,7 @@ Screen lock arguments:
 1. copy screenlock to somehwere on your path
 2. copy  screensaver.zsh to a convenient place
 3. add ```source path-to/screensaver.sh```
-4. run ```exec zsh``
+4. run ```exec zsh```
 
 
 ## License
