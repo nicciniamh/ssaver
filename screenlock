@@ -23,7 +23,10 @@ def main(stdscr,args):
 	curses.cbreak()
 	curses.start_color()
 	username = os.environ['USER']
-	hostname = f'{username}@{os.uname()[1]}'
+	if args.long:
+		hostname = f'{username}@{os.uname()[1]}'
+	else:
+		hostname = f'{username}@{os.uname()[1].split(".")[0]}'
 	tstr = time.strftime("%c",time.localtime())
 	tw = max(len(hostname),len(tstr))
 	for s in [signal.SIGHUP,signal.SIGINT,signal.SIGPIPE, signal.SIGTSTP]:
@@ -103,6 +106,7 @@ def main(stdscr,args):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='Terminal Screen Locker')
 	parser.add_argument('-c','--colors',action='store_true',default=False,help='Use random colors on display')
+	parser.add_argument('-l','--long',action='store_true',default=False,help='Use long (full) hostname')
 	parser.add_argument('-n','--nolock',action='store_true',default=False,help='Disable requiring a password to deactivate.')
 	parser.add_argument('-r','--random',action='store_true',default=False,help='Use random placement of information.')
 	args = parser.parse_args()

@@ -47,9 +47,12 @@ Screen lock arguments:
 | -h, --help   | Show help message and exit.                |
 | -c, --colors | Use random colors on display.              |
 | -n, --nolock | Disable requiring a password to deactivate.|
-| -r, --random | Use random placement of logo.              | 
+| -r, --random | Use random placement of logo.              |
+| -l, --long   | Use long (full) histname                   |
 
 ## Installation
+
+I have tested this code on Debian Bookworm, Pi OS Buster, Ubuntu Server 18.04 and macOS Ventura.
 
 ### Prerequisites 
 * zsh

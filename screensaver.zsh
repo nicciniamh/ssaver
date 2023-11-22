@@ -14,8 +14,9 @@ Usage: screensaver off|on|activate|save|set
      activate turn on the screensaver with current options
      save save screensaver settings to ~/.ssaver.rc
      set lock|random|time
-     	colors off|on
+     	  colors off|on
           lock off|on
+	  long off|on
           random off|on
           time <seconds>
 
@@ -27,6 +28,8 @@ readonly USER
 export _screensave_lock="on"
 export _saver_random=""
 export _saver_colors=""
+export _saver_fullhost=""
+
 if [[ -f ~/.ssaver.rc ]] ; then
 	source ~/.ssaver.rc
 	export __deftimeout=$TMOUT
@@ -34,7 +37,7 @@ fi
 
 function _saver_save() {
 	:>~/.ssaver.rc
-	for v in TMOUT _screensave_lock _saver_colors _saver_random ; do
+	for v in TMOUT _screensave_lock _saver_colors _saver_random _saver_fullhost; do
 		if [[ ${(P)v} = <-> ]] ; then
 			echo "export ${v}=${(P)v}" >>~/.ssaver.rc
 		else
@@ -44,12 +47,16 @@ function _saver_save() {
 }
 function __doScreenSaver() {
 	if [[ ${_screensave_lock} == "on" ]] ; then
-			~/bin/screenlock ${_saver_random} ${_saver_colors}
-		else
-			~/bin/screenlock --nolock ${_saver_random} ${_saver_colors}
-		fi
+		~/bin/screenlock ${_saver_random} ${_saver_colors}
+	else
+		~/bin/screenlock --nolock ${_saver_random} ${_saver_colors}
+	fi
 }
 function __state() {
+	local longopt="using full hostname"
+	if [[ -z ${_saver_fullhost} ]] ; then
+		longopt="using shot hostname"
+	fi
 	if [[ $TMOUT == 0 ]] ; then
 		echo "Screensaver is not active. Use screensave on to activate "
 		return 0;
@@ -66,9 +73,9 @@ function __state() {
 		echo "Logo will be placed randomly on screen."
 	fi
 	if [[  -z ${_saver_colors} ]] ; then
-		echo "Logo will be in white"
+		echo "Logo will be in white, ${longopt}."
 	else
-		echo "Logo will be in random colors"
+		echo "Logo will be in random colors, ${longopt}."
 	fi
 	return 0
 
@@ -78,7 +85,7 @@ function __sset() {
 	local how=${2}
 	local rc=0
 	if [[ -z ${what} ]] ; then
-		echo "Usage: screensaver set lock|time|random|colors"
+		echo "Usage: screensaver set colors|long|lock|time|random"
 		rc=0
 	elif [[ ${what} == "lock" ]] ; then
 		if [[ -z ${how} ]] ; then
@@ -86,6 +93,20 @@ function __sset() {
 		elif [[ ${how} == "on" ]] || [[ ${how} == "off" ]]; then
 			unset _screensave_lock
 			export _screensave_lock=${how}
+		else
+			echo "must be on or off"
+			rc=1
+		fi
+	elif [[ ${what} == "fullhost" ]] ; then
+		if [[ -z ${how} ]] ; then
+			rc=0
+		elif [[ ${how} == "on" ]] || [[ ${how} == "off" ]]; then
+			unset _saver_fullhost
+			if [[ ${how} == "on" ]] ; then
+				export _saver_fullhost="--long"
+			else
+				export _saver_fullhost=""
+			fi
 		else
 			echo "must be on or off"
 			rc=1
