@@ -5,7 +5,7 @@
 ssaver is a pair of utilities. One is a script meant to be sourced into zsh. The other is a python curses
 program that does the actual screensaver. 
 
-## .zsh/screensaver.sh
+## screensaver.zsh
 This script creates a screensaver function that is used like a shell command that allows changing of the 
 options used. 
 
