@@ -13,10 +13,10 @@ Usage: screensaver off|on|activate|save|set
      off disable the screensaver
      activate turn on the screensaver with current options
      save save screensaver settings to ~/.ssaver.rc
-     set lock|random|time
-     	  colors off|on
+     set colors|fullhost|lock|random|time
+     	colors off|on
+	     fullhost off|on
           lock off|on
-	  long off|on
           random off|on
           time <seconds>
 
