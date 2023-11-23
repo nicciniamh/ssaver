@@ -9,7 +9,7 @@ program that does the actual screensaver.
 This script creates a screensaver function that is used like a shell command that allows changing of the 
 options used. 
 
-## Logo 
+### Logo 
 The screensaver logo, centered on the screen by default, is two lines of user@hostname and the current time. 
 
 ### Screensaver commands
@@ -64,7 +64,7 @@ I have tested this code on Debian Bookworm, Pi OS Buster, Ubuntu Server 18.04 an
 
 1. copy screenlock to somehwere on your path
 2. copy  screensaver.zsh to a convenient place
-3. add ```source path-to/screensaver.sh```
+3. add ```source path-to/screensaver.zsh```
 4. run ```exec zsh```
 
 
